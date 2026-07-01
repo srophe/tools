@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root xmlns:srophe="https://srophe.app">
+  <desc>
+    This file is designed to provide code snippets that can be copied and pasted into an NHSL work file. The result
+    will highlight raise error messages in that NHSL file. This is to be expected and the messages are designed
+    to assist in the completion of a valid work record conforming to the NHSL data model.
+  </desc>
+  
+  <!-- Bibliography: Ancient Versions -->
+  <listBibl type="ancientVersions">
+    <head>Ancient Versions</head>
+    <desc xml:lang="en">This is not a comprehensive list of ancient versions related to this work.</desc>
+    <bibl xml:id="" source="" type="syriaca:AncientVersion">
+      <title xml:lang=""></title>
+      <ptr target=""/>
+      <textLang mainLang=""/>
+    </bibl>
+  </listBibl>
+  
+  
+  <!-- Bibliography: Editions -->
+  <listBibl type="editions">
+    <head>Editions</head>
+    <desc xml:lang="en">This is not a comprehensive list of editions related to this work. Further citations may be available through <ref target="http://syriaca.org/cbss">The Comprehensive Bibliography on Syriac Studies</ref>.</desc>
+    <bibl xml:id="" type="">
+      <title xml:lang=""></title>
+      <ptr target=""/>
+      <citedRange unit=""></citedRange>
+      <listRelation>
+        <relation active="" ref="dcterms:source" passive="">
+          <desc xml:lang="en">
+            <title xml:lang="" ref=""></title>
+          </desc>
+        </relation>
+      </listRelation>
+    </bibl>
+  </listBibl>
+  
+  
+  <!-- Bibliography: Manuscripts -->
+  <listBibl type="manuscripts">
+    <head>Manuscripts</head>
+    <desc xml:lang="en">This is not a comprehensive list of manuscripts related to this work.</desc>
+    <bibl xml:id="" type="syriaca:Manuscript">
+      <label> <idno type="shelfmark"> </idno>
+      </label>
+      <label> <idno type="number" subtype="Leiden"> </idno>
+      </label>
+    </bibl>
+  </listBibl>
+  
+  
+  <!-- Bibliography: Modern Translations -->
+  <listBibl type="modernTranslations">
+    <head>Modern Translations</head>
+    <desc xml:lang="en">This is not a comprehensive list of modern translations related to this work. Further citations may be available through <ref target="http://syriaca.org/cbss">The Comprehensive Bibliography on Syriac Studies</ref>.</desc>
+    <bibl xml:id="" source="" type="syriaca:ModernTranslation">
+      <title xml:lang=""> </title>
+      <ptr target=""/>
+      <citedRange unit=""> </citedRange>
+      <textLang mainLang=""/>
+    </bibl>
+  </listBibl>
+  
+  
+  <!-- Bibliography: Secondary Literature -->
+  <listBibl type="secondaryLiterature">
+    <head>Secondary Literature</head>
+    <desc xml:lang="en">This is not a comprehensive list of secondary literature related to this work. Further citations may be available through <ref target="http://syriaca.org/cbss">The Comprehensive Bibliography on Syriac Studies</ref>.</desc>
+    <bibl xml:id="" type="lawd:Citation">
+      <title xml:lang=""> </title>
+      <ptr target=""/>
+    </bibl>
+  </listBibl>
+  
+  
+  <!--Date When-->
+  <date when=""></date>
+  
+  
+  <!--Date Range-->
+  <date notBefore="" notAfter=""></date>
+  
+  
+  <!-- Relation: Commemorates Person -->
+  <listRelation>
+    <relation ref="syriaca:commemorates" active="http://syriaca.org/work/" source="" passive="http://syriaca.org/person/">
+      <desc xml:lang="en">
+        <persName ref="http://syriaca.org/person/"> </persName>
+      </desc>
+    </relation>
+  </listRelation>
+  
+  
+  <!-- Relation: Commemorates Place -->
+  <listRelation>
+    <relation ref="syriaca:commemorates" active="http://syriaca.org/work/" source="" passive="http://syriaca.org/place/">
+      <desc xml:lang="en">
+        <persName ref="http://syriaca.org/person/"> </persName>
+      </desc>
+    </relation>
+  </listRelation>
+  
+  
+  <!-- Relation: Part of Collection -->
+  <listRelation>
+    <relation type="part" ref="dcterms:isPartOf" active="http://syriaca.org/work/" passive="http://syriaca.org/work/">
+      <desc xml:lang="en">
+        <label type="order" subtype="part" n="19" source=""> </label>
+      </desc>
+    </relation>
+  </listRelation>
+  
+  
+  <!-- Relation: Part of Literary Tradition -->
+  <listRelation>
+    <relation ref="skos:broader" active="http://syriaca.org/work/" passive="http://syriaca.org/work/">
+      <desc xml:lang="en">
+        <title ref="http://syriaca.org/work/"><!-- Replace with title --> (Literary Tradition)</title>
+      </desc>
+    </relation>
+  </listRelation>
+  
+  
+  <!-- Relation: Disambiguation -->
+  <listRelation>
+    <relation type="disambiguation" ref="syriaca:different-from" active="http://syriaca.org/work/" passive="http://syriaca.org/work/">
+      <desc xml:lang="en">
+        <title ref="http://syriaca.org/work/"> </title>
+      </desc>
+    </relation>
+  </listRelation>
+  
+  
+</root>
