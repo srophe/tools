@@ -97,6 +97,10 @@
                </note>
             </noteGrp>
             <!-- 
+               You can add multiple noteGrp elements. Options include: abstract, contents, disambiguation, 
+               exerpt, explicit, incipit, prologue, scope, and versions.
+            -->
+            <!-- 
                You can add a listRelation if this work is part of a larger collection, is part of a literary tradition,
                commemorates a person or place, or if it would be helpful to explicitly distinguish this work from
                another work with a Syriaca.org URI. [If none of these is the case, you can delete this comment.]
