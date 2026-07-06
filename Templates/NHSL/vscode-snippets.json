@@ -1,0 +1,251 @@
+{
+	//TEI-wide and/or Syriaca-wide:
+	//titleStmt editor
+	"Syriaca Editor Attribution (editor)": {
+		"scope": "xml",
+		"prefix": "syriaca:editor",
+		"body": [
+			"<editor role=\"${1|creator,contributor|}\" ref=\"http://syriaca.org/documentation/editors.xml#${2:editor_id}\">${3:<!-- Editor's Name -->}</editor>"
+		],
+		"description": "Insert an editor element for crediting contributors to Syriaca data records."
+	},
+	//respStmt for titleStmt
+	"Syriaca Responsibility Statement (respStmt)": {
+			"scope": "xml",
+		"prefix": "syriaca:respStmt",
+		"body": [
+			"<respStmt>",
+			"\t<resp>${1:<!--Describe the responsibility being credited-->}</resp>",
+			"\t<name type=\"person\" ref=\"http://syriaca.org/documentation/editors.xml#${2:editor_id}\">${3:<!-- Contributor's Name -->}</name>",
+			"</respStmt>"
+		],
+		"description": "Insert a respStmt element for crediting contributions to Syriaca data records."
+	},
+	//revisionDesc change
+	"Syriaca Revision Desc Entry (change)": {
+		"scope": "xml",
+		"prefix": "syriaca:change",
+		"body": [
+			"<change who=\"http://syriaca.org/documentation/editors.xml#${1:editor_id}\" when=\"$CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE$CURRENT_TIMEZONE_OFFSET\">${2|CHANGED,CREATED,ADDED|}: ${3:<!-- Change log message -->}</change>"
+		],
+		"description": "A change log entry in the revisionDesc for Syriaca records."
+	},
+
+	"NHSL Work Title (title)": {
+		"scope": "xml",
+		"prefix": "nhsl:title",
+		"body": [
+			"<title xml:id=\"name$TM_FILENAME_BASE-${1:sequence}\" xml:lang=\"${2:lang_code}\" ${3|source=\"\",resp=\"http://syriaca.org\"|}>${4:<!-- replace with title -->}</title>"
+		],
+		"description": "Insert a work title for an NHSL record"
+	},
+	//TBD: 
+	"NHSL Author (author": {
+		"scope": "xml",
+		"prefix": "nhsl:author",
+		"body": [
+			"<author ref=\"http://syriaca.org/person/${1:URI}\" xml:lang=\"en\" ${2|source=\"\",resp=\"http://syriaca.org\"|}>${3:<!-- Copy titleSmt/title element from person record -->}</author>"
+		],
+		"description": "Insert an author element for an NHSL record"
+	},
+	//editor
+		"NHSL Editor (editor)": {
+		"scope": "xml",
+		"prefix": "nhsl:editor",
+		"body": [
+			"<editor ref=\"http://syriaca.org/person/${1:URI}\" xml:lang=\"en\" role=\"\" ${2|source=\"\",resp=\"http://syriaca.org\"|}>${3:<!-- Copy titleSmt/title from person record -->}</editor>"
+		],
+		"description": "Insert an editor element for an NHSL record"
+	}, // TBD: list out the roles?
+
+	//idno?
+	//noteGrps
+	//TBD: don't assume it's en
+	"NHSL Abstract Section (noteGrp)": {
+		"scope": "xml",
+		"prefix": "nshl:abstract",
+		"body": [
+			"<noteGrp type=\"abstract\">",
+			"\t<desc xml:lang=\"en\">Abstract</desc>",
+			"\t<note xml:lang=\"en\" type=\"abstract\" corresp=\"${1:seriesStmt_uris}\" ${2|source=\"\",resp=\"http://syriaca.org\"|}>",
+			"\t\t${3:<!--replace with abstract-->}",
+			"\t</note>",
+			"</noteGrp>"
+		],
+		"description": "Empty Abstracts section for an NHSL record"
+	},
+	//abstract note (single note)
+		//TBD: don't assume it's en
+	"NHSL Abstract Note (note)": {
+		"scope": "xml",
+		"prefix": "nshl:note-abstract",
+		"body": [
+			"<note xml:lang=\"en\" type=\"abstract\" corresp=\"${1:seriesStmt_uris}\"  ${2|source=\"\",resp=\"http://syriaca.org\"|}>",
+			"\t${3:<!--replace with abstract-->}",
+			"</note>"
+		],
+		"description": "Single abstract note for an NHSL record"
+	},
+	//annotation noteGrps
+	"NHSL Annotation notes Section (noteGrp)": {
+		"scope": "xml",
+		"prefix": "nshl:annotations",
+		"body": [
+			"<noteGrp type=\"${1|scope,versions,contents,disambiguation|}\">",
+			"\t<desc xml:lang=\"en\">${2|Scope,Versions,Contents,Disambiguation|}</desc>",
+			"\t<note xml:lang=\"en\" type=\"${3|scope,version,content,disambiguation|}\"  ${4|source=\"\",resp=\"http://syriaca.org\"|}>",
+			"\t\t${5:<!--replace with note-->}",
+			"\t</note>",
+			"</noteGrp>"
+		],
+		"description": "Empty noteGrp section for an NHSL record for scope, versions, contents, and disambiguation notes"
+	},
+	// annotation note (single note)
+	"NHSL Annotation Note (note)": {
+		"scope": "xml",
+		"prefix": "nshl:note-annotation",
+		"body": [
+			"<note xml:lang=\"en\" type=\"${1|scope,version,content,disambiguation|}\"  ${2|source=\"\",resp=\"http://syriaca.org\"|}>",
+			"\t${3:<!--replace with note-->}",
+			"</note>",
+		],
+		"description": "Single note for an NHSL record for scope, versions, contents, and disambiguation notes"
+	},
+	//excerpt noteGrps
+	"NHSL Excerpt notes Section (noteGrp)": {
+		"scope": "xml",
+		"prefix": "nshl:excerpts",
+		"body": [
+			"<noteGrp type=\"${1|prologue,incipit,excerpt,explicit|}\">",
+			"\t<desc xml:lang=\"en\">${2|Prologue,Incipit,Excerpt,Explicit|}</desc>",
+			"\t<note xml:lang=\"${3:lang_code}\" type=\"${3|prologue,incipit,excerpt,explicit|}\">",
+			"\t\t<quote source=\"#bib$TM_FILENAME_BASE-${4:sequence}\">",
+			"\t\t\t${5:<!--replace with the excerpt. If not a direct quote, delete the quote element and move the source attribute to the note. -->}",
+			"\t\t</quote>",
+			"\t</note>",
+			"</noteGrp>"
+		],
+		"description": "Empty noteGrp section for an NHSL record for prologues, incipits, excerpts, and explicits"
+	},
+	// excerpt note (single note)
+	"NHSL Excerpt Note (note)": {
+		"scope": "xml",
+		"prefix": "nshl:note-excerpt",
+		"body": [
+			"<note xml:lang=\"${1:lang_code}\" type=\"${2|prologue,incipit,excerpt,explicit|}\">",
+			"\t<quote source=\"#bib$TM_FILENAME_BASE-${3:sequence}\">",
+			"\t\t${4:<!--replace with the excerpt. If not a direct quote, delete the quote element and move the source attribute to the note. -->}",
+			"\t</quote>",
+			"</note>",
+		],
+		"description": "Single note for an NHSL record for prologues, incipits, excerpts, and explicits"
+	},
+	//listRelation
+	//TBD: should dcterms:source be here as an option for the seed relation?
+	"NHSL List Relation (listRelation)": {
+		"scope": "xml",
+		"prefix": "nhsl:list-relation",
+		"body": [
+			"<listRelation>",
+			"\t<relation ref=\"${1|syriaca:commemorates,dcterms:isPartOf,skos:broader,syriaca:different-from,dcterms:source|}\" active=\"http://syriaca.org/work/$TM_FILENAME_BASE\" passive=\"${2:URI}\" ${3|source=\"\",resp=\"http://syriaca.org\"|}>",
+			"\t\t<desc xml:lang=\"en\">",
+			"\t\t\t${4|<persName ref=\"http://syriaca.org/person/\"><!-- Person Name --></persName>,<title ref=\"http://syriaca.org/work/\"><!-- Work Title --></title>,<placeName ref=\"http://syriaca.org/place/\"><!-- Place Name --></placeName>,<label><!-- Manuscript shelfmark/label--></label>|}",
+			"\t\t</desc>",
+			"\t</relation>",
+			"</listRelation>"
+		],
+		"description": "listRelation element for an NHSL record with a child relation element."
+	},
+	//relations
+		"NHSL Relations (relation)": {
+		"scope": "xml",
+		"prefix": "nhsl:relation",
+		"body": [
+			"<relation ref=\"${1|syriaca:commemorates,dcterms:isPartOf,skos:broader,syriaca:different-from,dcterms:source|}\" active=\"http://syriaca.org/work/$TM_FILENAME_BASE\" passive=\"${2:URI}\" ${3|source=\"\",resp=\"http://syriaca.org\"|}>",
+			"\t<desc xml:lang=\"en\">",
+			"\t\t${4|<persName ref=\"http://syriaca.org/person/\"><!-- Person Name --></persName>,<title ref=\"http://syriaca.org/\"><!-- Work or CBSS Title --></title>,<placeName ref=\"http://syriaca.org/place/\"><!-- Place Name --></placeName>,<label><!-- Manuscript shelfmark/label--></label>|}",
+			"\t</desc>",
+			"</relation>",
+		],
+		"description": "Individual relation element for an NHSL record."
+	},
+	//listBibls
+	//TBD: desc...
+	"NHSL Bibliography Sections (listBibl)": {
+		"scope": "xml",
+		"prefix": "nhsl:list-bibl",
+		"body": [
+			"<listBibl type=\"${1|editions,manuscripts,modernTranslations,ancientVersions,secondaryLiterature|}\">",
+			"\t<head>${2|Editions,Manuscripts,Modern Translations,Ancient Versions,Secondary Literature|}</head>",
+			"\t<desc xml:lang=\"en\">${3|a,b,c|}</desc>",
+			"\t<bibl xml:id=\"bib$TM_FILENAME_BASE-${4:sequence}\" type=\"${5|lawd:Edition,syriaca:Manuscript,syriaca:ModernTranslations,syriaca:AncientVersion,lawd:Citation|}\">",
+			"\t\t<title xml:lang=\"${6:lang_code}\">${7:<!-- Title from CBSS record. Delete and replace with a label element if a manuscript -->}</title>",
+			"\t\t<ptr target=\"http://syriaca.org/cbss/${8:CBSS_Key}\"/>",
+			"\t\t<citedRange unit=\"${9:unit}\">${10:<!-- Cited Range, delete this element if unneeded. For manuscripts, rename to biblScope -->}</citedRange>",
+			"\t\t<!-- Use the code snippet nhsl:listRelation to insert a dcterms:source relation if needed (e.g., an edition to manuscript sources, otherwise delete this comment-->",
+			"\t</bibl>",
+			"</listBibl>"
+		],
+		"description": "Insert a listBibl element for an NHSL record"
+	},
+
+	//individual bibls
+"NHSL Bibliography Items (bibl)": {
+		"scope": "xml",
+		"prefix": "nhsl:bibl",
+		"body": [
+			"<bibl xml:id=\"bib$TM_FILENAME_BASE-${1:sequence}\" type=\"${2|lawd:Edition,syriaca:Manuscript,syriaca:ModernTranslations,syriaca:AncientVersion,lawd:Citation|}\">",
+			"\t<title xml:lang=\"${3:lang_code}\">${4:<!-- Title from CBSS record. Delete and replace with a label element if a manuscript -->}</title>",
+			"\t<ptr target=\"http://syriaca.org/cbss/${5:CBSS_Key}\"/>",
+			"\t<citedRange unit=\"${6:unit}\">${7:<!-- Cited Range, delete this element if unneeded. For manuscripts, rename to biblScope -->}</citedRange>",
+			"\t<!-- Use the code snippet nhsl:listRelation to insert a dcterms:source relation if needed (e.g., an edition to manuscript sources, otherwise delete this comment-->",
+			"</bibl>"
+		],
+		"description": "Insert a bibl element for an NHSL record"
+	},
+
+	//Bibls for manuscripts
+//TBD: eventually add in ptr for mss, but not enough have URIs yet
+	"NHSL Manuscript (bibl)": {
+		"scope": "xml",
+		"prefix": "nhsl:manuscript",
+		"body": [
+			"<bibl xml:id=\"bib$TM_FILENAME_BASE-${1:sequence}\" type=\"syriaca:Manuscript\">",
+			"\t<label>${4:<!-- Manuscript label, e.g. shelf mark. Refer to guidelines for standardizing references to major repositories -->}</label>",
+			"\t<biblScope unit=\"${6|fol,cah,p|}\">${7:<!-- Locus (folios, pages, etc.) if not the whole manuscript -->}</biblScope>",
+			"</bibl>"
+		],
+		"description": "Insert a bibl element for a manuscrpit witness for an NHSL record"
+	}
+
+
+
+	// /******************************************/
+
+	// Place your vscode-syriaca-snippets workspace snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and 
+	// description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope 
+	// is left empty or omitted, the snippet gets applied to all languages. The prefix is what is 
+	// used to trigger the snippet and the body will be expanded and inserted. Possible variables are: 
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. 
+	// Placeholders with the same ids are connected.
+	// Example:
+	// "Print to console": {
+	// 	"scope": "javascript,typescript",
+	// 	"prefix": "log",
+	// 	"body": [
+	// 		"console.log('$1');",
+	// 		"$2"
+	// 	],
+	// 	"description": "Log output to console"
+	// }
+	//
+	// You can also restrict snippets to specific files using include/exclude patterns:
+	// "Test snippet": {
+	// 	"scope": "javascript,typescript",
+	// 	"prefix": "test",
+	// 	"body": "test('$1', () => {\n\t$0\n});",
+	// 	"include": ["**/*.test.ts", "*.spec.ts"],
+	// 	"exclude": ["**/temp/*.ts"],
+	// 	"description": "Insert test block"
+	// }
+}
