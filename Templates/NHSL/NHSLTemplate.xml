@@ -92,7 +92,7 @@
             <!-- You can add an optional date element or delete this note. -->
             <noteGrp type="abstract">
                <desc xml:lang="en">Abstract</desc>
-               <note corresp="http://syriaca.org/nhsl" xml:id="" xml:lang="en" type="abstract" resp="http://syriaca.org">
+               <note corresp="http://syriaca.org/nhsl" xml:lang="en" type="abstract" resp="http://syriaca.org">
                   <!-- Replace with short description of this work -->
                </note>
             </noteGrp>
