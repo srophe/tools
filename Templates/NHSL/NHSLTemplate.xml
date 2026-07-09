@@ -83,8 +83,9 @@
    <text>
       <body>
          <bibl xml:id="" type="lawd:ConceptualWork">
-            <title xml:id="" xml:lang="en" srophe:tags="#syriaca-headword"> </title>
-            <author ref="" xml:lang="en"> — <foreign xml:lang="syr"><!-- Add Syriac name if known or delete hyphen, space, and foreign element --></foreign>
+            <title xml:id="" xml:lang="en" srophe:tags="#syriaca-headword" source="#"><!-- Add title here. Fill out the source attribute with a bibl element's xml:id, or replace it with resp="http://syriaca.org"--></title>
+            <!-- Add additional title elements as needed -->
+            <author ref="" xml:lang="en" source="#"><!-- Add author name here. Fill out the source attribute with a bibl element's xml:id, or replace it with resp="http://syriaca.org"--> — <foreign xml:lang="syr"><!-- Add Syriac name if known or delete hyphen, space, and foreign element --></foreign>
             </author>
             <!-- You can add an editor element here or replace the author with editor if appropriate. -->
             <idno type="URI">http://syriaca.org/work/<!-- replace with URI number --></idno>
