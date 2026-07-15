@@ -31,10 +31,10 @@ declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization';
 declare option output:omit-xml-declaration 'no';
 declare option output:indent 'yes';
 
-declare variable $path-to-repo := "/home/arren/Documents/GitHub/syriaca-data/"; (: TODO: Change to external, pass via Python wrapper :)
-declare variable $works := collection($path-to-repo||"data/works/tei/");
-declare variable $places := collection($path-to-repo||"data/places/tei/");
-declare variable $persons := collection($path-to-repo||"data/persons/tei/");
+declare variable $path-to-syriaca-data external;
+declare variable $works := collection($path-to-syriaca-data||"data/works/tei/");
+declare variable $places := collection($path-to-syriaca-data||"data/places/tei/");
+declare variable $persons := collection($path-to-syriaca-data||"data/persons/tei/");
 
 (: Create a map of author URI to record title :)
 let $personIndex := map:merge(

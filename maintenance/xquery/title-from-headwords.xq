@@ -37,10 +37,10 @@ as xs:string? {
     => normalize-space()
 };
 
-declare variable $path-to-repo := "/home/arren/Documents/GitHub/syriaca-data/"; (: TODO: set external, declare via Python wrapper :)
-declare variable $works := collection($path-to-repo||"data/works/tei/");
-declare variable $places := collection($path-to-repo||"data/places/tei/");
-declare variable $persons := collection($path-to-repo||"data/persons/tei/");
+declare variable $path-to-syriaca-data external;
+declare variable $works := collection($path-to-syriaca-data||"data/works/tei/");
+declare variable $places := collection($path-to-syriaca-data||"data/places/tei/");
+declare variable $persons := collection($path-to-syriaca-data||"data/persons/tei/");
 
 (:
 NOTE: headwordPath is relative to the body element.
