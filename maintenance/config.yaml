@@ -23,3 +23,9 @@ scripts: # Order matters, as each will be executed in sequence
         - name: $path-to-syriaca-data
           value: /home/arren/Documents/GitHub/syriaca-data/
           description: The path to the Syriaca repository on your local machine
+        - name: $output-directory
+          value: /home/arren/Desktop/
+          description: The output directory in which to store the generated CSV file
+        - name: $output-file-name
+          value: headword-index.csv
+          description: The file name for the generated CSV file

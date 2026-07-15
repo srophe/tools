@@ -39,6 +39,10 @@ declare variable $works := collection($path-to-syriaca-data||"data/works/tei/");
 declare variable $places := collection($path-to-syriaca-data||"data/places/tei/");
 declare variable $persons := collection($path-to-syriaca-data||"data/persons/tei/");
 
+declare variable $output-directory external;
+declare variable $output-file-name external;
+
+
 (:
 NOTE: headwordPath is relative to the body element.
 TBD: Documentation
@@ -95,4 +99,10 @@ let $rows :=
     for $c in $columnNames where not($r/*[name() = $c]) return element {$c} {}
   }
 
-return element {"csv"} {$rows} => csv:serialize({"header": "yes"})
+(: creates the output directory and saves as a CSV:)
+
+let $csv := element {"csv"} {$rows} => csv:serialize({"header": "yes"})
+return (
+  file:create-dir($output-directory),
+  file:write($output-directory||$output-file-name, $csv)
+)
