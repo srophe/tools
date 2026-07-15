@@ -33,9 +33,7 @@ share/python-wheels/
 .installed.cfg
 *.egg
 
-# Poetry virtual environment
-poetry.lock
-pyproject.toml
+
 
 
 # PyInstaller
