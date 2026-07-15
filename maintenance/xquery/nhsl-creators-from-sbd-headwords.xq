@@ -1,7 +1,7 @@
 xquery version "3.1";
 
 (:
-: Module Name: Record Title from Headwords
+: Module Name: NHSL Creator Labels
 : Module Version: 1.0
 : Copyright: GNU General Public License v3.0
 : Proprietary XQuery Extensions Used: None
@@ -23,7 +23,6 @@ xquery version "3.1";
 : @version 1.0
 :)
 
-import module namespace functx="http://www.functx.com";
 
 declare default element namespace "http://www.tei-c.org/ns/1.0";
 declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization';
