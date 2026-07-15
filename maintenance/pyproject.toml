@@ -8,7 +8,8 @@ authors = [
 requires-python = ">=3.10"
 dependencies = [
     "argparse (>=1.4.0,<2.0.0)",
-    "basexclient (>=8.4.4,<9.0.0)"
+    "basexclient (>=8.4.4,<9.0.0)",
+    "pyyaml (>=6.0.3,<7.0.0)"
 ]
 
 
