@@ -1,4 +1,5 @@
 commands:
+    # ? The following ensures it's downloaded, but maybe will try to redownload each time ? REPO INSTALL https://files.basex.org/modules/expath/functx-1.0.xar
     - SET SERIALIZER indent=yes,omit-xml-declaration=no
     - SET EXPORTER indent=yes,omit-xml-declaration=no
     - SET WRITEBACK true
@@ -15,5 +16,10 @@ scripts: # Order matters, as each will be executed in sequence
       variables:
         - name: $path-to-syriaca-data
           value: /home/arren/Documents/GitHub/syriaca-data/
-          description: The path tot he Syriaca repository on your local machine
-    # TBD: script to export as CSV of URI, entity type, and list of headwords
+          description: The path to the Syriaca repository on your local machine
+    - path: xquery/generate-uri-headwords-table.xq
+      description: Outputs a CSV table containing the URI and headwords of all entities (minus CBSS)
+      variables:
+        - name: $path-to-syriaca-data
+          value: /home/arren/Documents/GitHub/syriaca-data/
+          description: The path to the Syriaca repository on your local machine
