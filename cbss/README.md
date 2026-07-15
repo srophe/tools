@@ -15,11 +15,11 @@ The following documents the publication pipeline for CBSS data.
     - For collaborating projects, e.g. _A Guide to John of Ephesus_, please request a project-specific user account from the Syriaca.org editors.
     - More details and guidelines for contributing to the CBSS Zotero library may be found in the [Contributor Guidelines for CBSS](https://github.com/srophe/syriaca-data/wiki/Contributor-Guidelines-for-the-Comprehensive-Bibliography-on-Syriac-Studies)
 2. Download CBSS Zotero data from the Zotero Web API
-    - Data should be downloaded using the bulk download script **TBD: put that script in this repo**
+    - Data should be downloaded using the bulk download script (`zotero-dump/src/dump.py`). Please refer to the script's README file for usage information.
 3. Process and deposit downloaded JSON data into the `syriaca-data` repository
     - The bulk download script chunks downloaded JSON records into batches, but they need to be stored in `syriaca-data` as individual documents named for the Zotero Item Key
-    - **TBD: script to do this...**
-    - The output of these records should go into `data/cbss/json/` within the `syriaca-data` repository
+    - This transformation is accomplished with the `zotero-dump/src/split.py` script. Please refer to the README in that directory for usage information.
+    - The output of this script should go into `data/cbss/json/` within the `syriaca-data` repository (this can be accomplished directly by setting the `split.py`'s `-o` output flag, or they can be moved to the repository manually after the fact)
 4. Run JSON to TEI XML transform
     - The GitHub repository for this code is in https://github.com/srophe/zotero2bibl/
     - **TBD: Refer to that repository's documentation for steps to run this code**

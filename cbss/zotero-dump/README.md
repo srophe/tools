@@ -107,3 +107,4 @@ Both flags are required, and at present both expect an absolute path rather than
     - setting `format` would also require potentially saving it a different way
 - [ ] Add max retries and default backoff to the config? (need to figure out how to call these from the tenacity functions)
 - [ ] Add a specific check in 429 errors to follow the requested response delay header to override backoffs
+- [ ] Instructions for setting the user agent as an alternative to the API key? (and as a way to identify the script as a scripting tool?)
