@@ -72,6 +72,34 @@ Most errors that occur are due to temporary issues between the request and the s
 
 The script will run as normal, but will only make the requests marked as errors in the log file. Note that the config file should not be changed, as it already has the path to the log file containing the errors.
 
+# Splitting and Saving Individual Zotero Records (`split.py`)
+
+The `split.py` script can be used to post-process the batch downloaded records into individual JSON files for processing
+via the Gaddel application (i.e., transform to TEI XML, HTML, and search/browse indexing).
+
+No additional installations steps are necessary
+
+## Usage
+
+The script can be called similar to the `dump.py` script. Run `poetry run python src/split.py --help`, to will print the following help message:
+
+```
+usage: split.py [-h] -i INPUT -o OUTPUT
+
+options:
+  -h, --help            show this help message and exit
+  -i INPUT, --input INPUT
+                        Path to the directory containing chunked Zotero records
+  -o OUTPUT, --output OUTPUT
+                        Path to the directory where per-record JSON files should be stored
+```
+
+The `-i` (input) flag takes a path to a directory containing the files that were downloaded using the Zotero data dump script. As noted above, these are stored as a chunked collection of Zotero records.
+
+The `-o` (output) flag takes a path to the directory where the individual JSON files for the Zotero records should be stored. This can, for example, be something like `/path/to/syriaca-data/data/bibl/json/`, which would store them directly in the JSON directory of the syriaca-data GitHub repository.
+
+Both flags are required, and at present both expect an absolute path rather than a relative path.
+
 # Areas of Future Development
 
 - [ ] Implement a last modified date filter (somewhat tricky with the concurrent calls/coroutines structure)
