@@ -1,0 +1,17 @@
+[project]
+name = "maintenance"
+version = "0.1.0"
+description = "Python wrapper for executing maintenance XQuery scripts via BaseX for Syriaca.org project data"
+authors = [
+    {name = "William L Potter",email = "44096602+wlpotter@users.noreply.github.com"}
+]
+requires-python = ">=3.10"
+dependencies = [
+    "argparse (>=1.4.0,<2.0.0)",
+    "basexclient (>=8.4.4,<9.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
