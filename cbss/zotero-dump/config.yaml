@@ -1,0 +1,13 @@
+# It is recommended that you copy this config file into a separate directory to avoid storing private information under version control
+zotero_api_base: https://api.zotero.org/groups/4861694/items/top
+session_headers: 
+  Zotero-API-Version: "3"
+  Zotero-API-Key: $$$$$$ # Optional for public libraries/groups. **Do not store your private API key under version control**
+limit_interval: 100
+start_at: 0 # Set to 0 for all records
+max_records: 10000 # Optional, leave out if downloading the full library
+total_callers: 6
+save_directory: /path/to/save/directory/
+file_name_base: zotero_dump2026-07-15_
+log_path: /path/to/log/directory/
+log_file_name: log.json
