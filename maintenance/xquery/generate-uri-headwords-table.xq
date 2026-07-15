@@ -18,7 +18,7 @@ xquery version "3.1";
 : @version 1.0
 :)
 
-import module namespace functx="http://www.functx.com"; (:TODO: Import this better so you don't have to have it in the basex repo :)
+import module namespace functx="http://www.functx.com";
 
 declare namespace srophe="https://srophe.app";
 declare default element namespace "http://www.tei-c.org/ns/1.0";

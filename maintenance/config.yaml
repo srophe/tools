@@ -1,5 +1,5 @@
 commands:
-    # ? The following ensures it's downloaded, but maybe will try to redownload each time ? REPO INSTALL https://files.basex.org/modules/expath/functx-1.0.xar
+    - REPO INSTALL https://files.basex.org/modules/expath/functx-1.0.xar
     - SET SERIALIZER indent=yes,omit-xml-declaration=no
     - SET EXPORTER indent=yes,omit-xml-declaration=no
     - SET WRITEBACK true
