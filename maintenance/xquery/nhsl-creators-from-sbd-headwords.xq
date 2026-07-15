@@ -55,7 +55,13 @@ let $updatedCreator :=
       $creator/@resp,
       $creator/@role,
       attribute {"xml:lang"} {"en"},
-      $personIndex?$creatorUri/node() (: Look up the title in the author index and get the child text and element nodes :)
+      $personIndex?$creatorUri/text()[1],
+      if($personIndex?$creatorUri/foreign) then 
+        element {"foreign"} {
+          $personIndex?$creatorUri/foreign/@*,
+          $personIndex?$creatorUri/foreign/text()
+        }
+        else ()
     }
   else $creator (: if there is no URI, then keep the author element as-is so we don't lose any data :)
 return replace node $creator with $updatedCreator
