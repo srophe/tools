@@ -1,0 +1,19 @@
+commands:
+    - SET SERIALIZER indent=yes,omit-xml-declaration=no
+    - SET EXPORTER indent=yes,omit-xml-declaration=no
+    - SET WRITEBACK true
+scripts: # Order matters, as each will be executed in sequence
+    - path: xquery/title-from-headwords.xq
+      description: Updates the titleStmt/title for records based on their English and Syriac headwords
+      # TBD: if a command needs to override the main commands they can go here as 'commands'?
+      variables:
+        - name: $path-to-syriaca-data
+          value: /home/arren/Documents/GitHub/syriaca-data/
+          description: The path to the Syriaca repository on your local machine
+    - path: xquery/nhsl-creators-from-sbd-headwords.xq
+      description: Updates the author and editor elements in NHSL records based on SBD titles
+      variables:
+        - name: $path-to-syriaca-data
+          value: /home/arren/Documents/GitHub/syriaca-data/
+          description: The path tot he Syriaca repository on your local machine
+    # TBD: script to export as CSV of URI, entity type, and list of headwords
