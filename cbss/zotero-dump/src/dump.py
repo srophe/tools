@@ -5,13 +5,6 @@ import json, yaml
 import os
 from tenacity import retry, retry_if_exception, stop_after_attempt, wait_random_exponential
 
-"""
-TODO:
-- handling modified after filtering
-- add max retries and default backoff to config, and how to call from the retry functions
-- add checking for 429 and response delay header to tenacity retry
-"""
-
 # This function controls the number of concurrent calls by bounding the main
 # async coro within a Semaphore, limiting max concurrent operations
 async def bounded_get_zotero_data(sem, call_context, session, sleep_time=1):
