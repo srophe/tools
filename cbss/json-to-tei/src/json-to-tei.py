@@ -3,15 +3,6 @@ import yaml
 import argparse
 from BaseXClient import BaseXClient
 
-# TODO:
-"""
-Oh right, the problem with calling the module function is it relies on the globally-declared variable in that module
-that points to the config file, which is hard-coded (technically an external variable with a hard-coded default). And
-to change to an external that is passed requires the funky xquery-evaluate that I tried previously.
-
-So maybe change the functions there to pass the variable to it and use that one? and it defaults there?
-
-"""
 
 # Install the XQuery dependencies from the config
 # TODO: Error handling.
