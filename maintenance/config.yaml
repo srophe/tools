@@ -1,5 +1,14 @@
+basex_session:
+    host: localhost
+    port: 1984
+    user: admin
+    password: admin
+packages: # The XQuery package dependencies to install when the script runs, if they don't already exist
+    - name: http://www.functx.com
+      naespace: http://www.functx.com
+      location: https://files.basex.org/modules/expath/functx-1.0.xar
+    # TODO: maybe add an option to purge and reinstall? because it won't catch new versions from GitHub if it's already installed
 commands:
-    - REPO INSTALL https://files.basex.org/modules/expath/functx-1.0.xar
     - SET SERIALIZER indent=yes,omit-xml-declaration=no
     - SET EXPORTER indent=yes,omit-xml-declaration=no
     - SET WRITEBACK true

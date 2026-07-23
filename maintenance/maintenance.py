@@ -1,6 +1,21 @@
 from BaseXClient import BaseXClient
 import json, yaml, argparse, os
 
+
+# Install the XQuery dependencies from the config
+# TODO: Error handling.
+def install_xquery_packages(session, packages):
+    """
+    - from the session, get the list
+    """
+    installed_packages = session.execute("xquery repo:list()")
+    for pkg in packages:
+        if(f"name=\"{pkg['name']}\"" in installed_packages):
+            print(f"Package {pkg['name']} already installed.")
+        else:
+            print(f"Installing package {pkg['name']}")
+            session.execute(f"REPO INSTALL {pkg['location']}")
+
 if __name__ == "__main__":
     # Set up and parse command line arguments
     parser = argparse.ArgumentParser(
@@ -20,10 +35,16 @@ if __name__ == "__main__":
     """
     Set up BaseX Session and Query
     """
-    session = BaseXClient.Session('localhost', 1984, 'admin', 'admin')
+    session_config = config["basex_session"]
+    session = BaseXClient.Session(session_config["host"], session_config["port"], session_config['user'], session_config["password"])
 
-
-
+    """
+    Install required XQuery packages to local BaseX install, if needed
+    """
+    print("Ensuring XQuery packages are installed...")
+    # Install the XQuery package
+    install_xquery_packages(session, config["packages"])
+    
     # execute the commands to set up the options
     print("Setting up Basex. Running commands...")
     for cmd in config["commands"]:
