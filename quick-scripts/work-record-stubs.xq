@@ -1,19 +1,24 @@
 xquery version "3.1";
 
 import module namespace functx="http://www.functx.com";
-import module namespace template="http://wlpotter.github.io/ns/template" at "/home/arren/Documents/GitHub/csv-to-srophe/modules/template.xqm";
 
 declare default element namespace "http://www.tei-c.org/ns/1.0";
 declare namespace srophe="https://srophe.app";
+declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization';
 
-declare variable $path-to-csv := "/home/arren/Downloads/Work URIs for Translation Corpus - Comprehensive.csv";
+declare option output:omit-xml-declaration 'no';
+declare option output:indent 'yes';
+
+declare variable $path-to-csv external;
 declare variable $csv := csv:doc($path-to-csv, map {"header": "yes"});
 
-declare variable $path-to-syriaca-data := "/home/arren/Documents/GitHub/syriaca-data/";
+declare variable $path-to-syriaca-data external;
 declare variable $persons := collection($path-to-syriaca-data||"data/persons/tei/");
 
-declare variable $path-to-template := "/home/arren/Documents/GitHub/tools/quick-scripts/works-template.xml";
+declare variable $path-to-template external;
 declare variable $template := doc($path-to-template);
+
+declare variable $output-directory external;
 
 declare variable $work-uri-base := "http://syriaca.org/work/";
 
@@ -92,6 +97,155 @@ as node() {
     }
 };
 
+(:~
+: Copied and customized from https://github.com/wlpotter/csv-to-srophe template module. 
+: @param $recordUri is the full URI of the document, including the URI-base, e.g. "http://syriaca.org/place/78".
+: Although this URI is included in a tei:idno element within the $record, its location is not reliable entity-type
+: to entity-type. Thus, rather than risking an inaccurate XPath, this value is passed to the function. :)
+declare function local:merge-record-into-template($record as node(),
+                                                     $template as node(),
+                                                     $recordUri as xs:string,
+                                                     $active-namespaces as item()*)
+as node()
+{
+  (: merge titleStmt from record into template :)
+  let $headwords := $record//*[@srophe:tags="#syriaca-headword"]
+  let $recordTitle := local:create-record-title-from-headwords($headwords, "en")
+  let $titleStmt := 
+  <titleStmt>
+    {
+      $recordTitle,
+      $template//titleStmt/*[not(name() = "respStmt")],
+      $record//titleStmt/editor[@role="creator"],
+      $record//titleStmt/respStmt,
+      $template//titleStmt/respStmt
+    }
+  </titleStmt>
+  
+  (: editionStmt comes from the template :)
+  let $editionStmt := $template//editionStmt
+  
+  (: build publicationStmt based on record's URI :)
+  (: as the document's idno may change depending on its entity, this value is passed to the function :)
+  let $pubStmtIdno := <idno type="URI">{$recordUri || "/tei"}</idno>
+  let $publicationStmt := (: careful here as there could be variance in the publicationStmt. I don't think there is but might need to revisit this. :)
+  <publicationStmt>
+    {
+      $template//publicationStmt/authority,
+      $pubStmtIdno,
+      $template//publicationStmt/availability,
+      <date>{fn:current-date()}</date>
+    }
+  </publicationStmt>
+  
+  (: build the seriesStmt from tepmlate :)
+  let $seriesStmt := $template//seriesStmt
+  
+  (: build sourceDesc from template :)
+  let $sourceDesc := $template//sourceDesc
+  
+  (: build fileDesc from component parts :)
+  let $fileDesc :=
+  <fileDesc>
+    {
+      $titleStmt,
+      $editionStmt,
+      $publicationStmt,
+      $seriesStmt,
+      $sourceDesc
+    }
+  </fileDesc>
+  
+  (: build the encodingDesc which comes from the template :)
+  let $encodingDesc := $template//encodingDesc
+  
+  (: build the profileDesc which comes from the template :)
+  let $profileDesc := $template//profileDesc
+  
+  (: build the revisionDesc which comes from the record :)
+  (: NOTE: potentially add a revisionDesc change for template merging? :)
+  let $revisionDesc := $record//revisionDesc
+  
+  (: build teiHeader from component parts :)
+  let $teiHeader := 
+  <teiHeader>
+  {
+    $fileDesc,
+    $encodingDesc,
+    $profileDesc,
+    $revisionDesc
+  }
+  </teiHeader>
+
+  (: the text node comes entirely from the $record :)
+  let $text := $record//text
+  
+  (: Add the @corresp attributes to the record's abstract(s) :)
+  let $seriesStmtIdnos := $seriesStmt/idno/text() => string-join(" ")
+  let $text := local:add-corresp-to-abstract($text, $seriesStmtIdnos)
+  
+  (: now the TEI node can be constructed; the xml:lang attribute comes from the record :)
+  let $baseLanguage := string($record/TEI/@xml:lang)
+  let $teiNode :=
+  element {QName("http://www.tei-c.org/ns/1.0", "TEI")} {$active-namespaces, attribute {"xml:lang"} {"en"}, $teiHeader, $text}
+  
+  (: build list of processing instructions based on template. This should be the various schema associations and any other CSS, etc. associations :)
+  let $processingInstructions := $template/processing-instruction()
+  return document {$processingInstructions, $teiNode}
+};
+
+(:~ 
+: takes input of some sequence of headword elements.
+: returns a tei:title element of the form:
+: <title level="a" xml:lang="{$baseLanguage}">Base-Language Headword - <foreign xml:lang="{non-base-language}">Non-Base-Language-Headword</foreign></title> 
+: 
+:)
+declare function local:create-record-title-from-headwords($headwords as element()+,
+                                                             $baseLanguage as xs:string)
+as element()
+{
+  let $baseLanguageHeadwords := $headwords[@xml:lang = $baseLanguage]
+  let $foreignHeadwords := $headwords[@xml:lang != $baseLanguage]
+  return 
+  <title level="a" xml:lang="{$baseLanguage}">
+    {
+      fn:string-join($baseLanguageHeadwords/text(), " - ") (: combine all base-language headword's text nodes, separated by " - ":),
+      for $headword at $i in $foreignHeadwords
+        let $joiner := if($i > 1) then " - " else "- " (: avoid adding an extra space between base and foreign headwords:)
+        return ($joiner, <foreign xml:lang="{string($headword/@xml:lang)}">{$headword/text()}</foreign>)
+    }
+  </title>
+  
+};
+
+declare function local:add-corresp-to-abstract($textElement as node(), $seriesStmtIdnos as xs:string)
+as node()
+{
+  (: should be text, body, listEl, El, :)
+  let $body := $textElement/body
+  let $listEl := $body/* (: the one ensures we don't pick up the listRelation element :)
+  let $entity := if(contains($listEl/name(), "list")) then $listEl/*[1] (: for places and persons, listRelation is listEl/*[2] :)else $listEl (: for subjects, the 'listEl' is actually entryFree :)
+  let $entitySiblings := $listEl/*[2] (: listRelation for persons and places :)
+  let $entity :=
+    element {$entity/name()} {$entity/@*,
+    for $ch in $entity/*
+    return if($ch/@type="abstract") then 
+       element {$ch/name()} {$ch/@*, attribute {"corresp"} {$seriesStmtIdnos}, $ch/*}
+    else $ch
+  }
+  let $listEl := 
+    if(contains($listEl/name(), "list")) then 
+      element {$listEl/name()} {$listEl/@*, $entity, $entitySiblings}
+    else $entity (: for subjects, the 'listEl' is actually entryFree :)
+  let $body := element {$body/name()} {$body/@*, $listEl, $body/*[2]}
+  let $text := element {$textElement/name()} {$textElement/@*, $body}
+  return $text
+};
+
+(: Creates the output directory path, if it does not yet exist :)
+let $nothing := file:create-dir($output-directory)
+
+(: Run through the CSV and create the stub records :)
 for $row in $csv/*:csv/*:record
 where not($row/*:work_URI/text() = "Needed") and $row/*:work_URI/text() => normalize-space() != ""
 
@@ -191,9 +345,16 @@ TODO: Review questions with Dan
 TODO: File I/O and send Dan some samples to review
 :)
 
-return try {
-  template:merge-record-into-template($stub, $template, $uri)
-} catch * {
-  $row
-}
-
+let $namespaces :=
+(
+  namespace {"srophe"} {"https://srophe.app"},
+  namespace {"syriaca"} {"http://syriaca.org"}
+)
+let $filepath := $output-directory||$workID||".xml"
+return file:write(
+  $filepath,
+  local:merge-record-into-template($stub, $template, $uri, $namespaces),
+  map {
+    "indent": "yes",
+    "omit-xml-declaration": "no"
+  })
