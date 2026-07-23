@@ -85,9 +85,12 @@ if __name__ == "__main__":
                 # TODO: override commands with query-specific ones (would mean moving the main commands down to re-run after each query)
                 
                 # run the query
-                # TODO: what happens with output?
-                query.execute()
+                output = query.execute()
                 print(f"Script {script['path']} ran successfully.\n")
+                if(output):
+                    print(output)
+                else:
+                    print("No output returned from script, likely meaning it directly updated or saved files to disk.")
 
     finally:
         # close session
