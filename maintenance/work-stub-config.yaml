@@ -1,0 +1,32 @@
+basex_session:
+    host: localhost
+    port: 1984
+    user: admin
+    password: admin
+packages: # The XQuery package dependencies to install when the script runs, if they don't already exist
+    - name: http://www.functx.com
+      naespace: http://www.functx.com
+      location: https://files.basex.org/modules/expath/functx-1.0.xar
+    # TODO: maybe add an option to purge and reinstall? because it won't catch new versions from GitHub if it's already installed
+commands:
+    - SET SERIALIZER indent=yes,omit-xml-declaration=no
+    - SET EXPORTER indent=yes,omit-xml-declaration=no
+scripts: # Order matters, as each will be executed in sequence
+    - path: /home/arren/Documents/GitHub/tools/quick-scripts/work-record-stubs.xq
+      description: Creates stub Work records from a CSV input
+      variables:
+        - name: $path-to-csv
+          value: "/home/arren/Downloads/Work URIs for Translation Corpus - Comprehensive.csv"
+          description: The path to the input CSV containing the work data to create stubs from
+        - name: $path-to-syriaca-data
+          value: /home/arren/Documents/GitHub/syriaca-data/
+          description: The path to the Syriaca repository on your local machine
+        - name: $path-to-template
+          value: /home/arren/Documents/GitHub/tools/quick-scripts/works-template.xml
+          description: Path to an XML template into which the stub data will be merged to make NHSL-compliant records
+        - name: $output-directory
+          value: /home/arren/Documents/GitHub/tools/out/
+          description: The output directory where files will be saved after they are created.
+        - name: $multi-author-delimiter
+          value: "\\|"
+          description: The delimiter to use if there are multiple authors for a given work row, e.g. "Ephrem|Jacob". Must be used in the author URI and the Pseudo columns. Defaults to a pipe character. Note that if you are setting this to a pipe, should use "\\|" as the value for proper yaml and regex escaping
