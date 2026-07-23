@@ -21,6 +21,7 @@ declare variable $template := doc($path-to-template);
 declare variable $output-directory external;
 
 declare variable $work-uri-base := "http://syriaca.org/work/";
+declare variable $multi-author-delimiter external := "\|";
 
 declare variable $listBibl-type-configs := map {
   "editions": {
@@ -252,9 +253,9 @@ where not($row/*:work_URI/text() = "Needed") and $row/*:work_URI/text() => norma
 let $title := $row/*:Title/text()
 let $uri := $row/*:work_URI/text()
 let $workID := $uri => substring-after($work-uri-base)
-let $authorURI := $row/*:Author_URI/text()
+let $authorURI := $row/*:Author_URI/text() => tokenize($multi-author-delimiter)
 let $authorName := $row/*:Author_name/text()
-let $authorIsPseudo := $row/*:Pseudo != ""
+let $authorIsPseudo := for $a in tokenize($row/*:Pseudo, $multi-author-delimiter) return $a != ""
 let $cbssURITranslation := $row/*:CBSS_URI__of_the_actual_source_of_the_transcription_/text()
 
 let $translationListBibl := 
@@ -272,24 +273,25 @@ let $work_bibl :=
       attribute {"xml:id"} {"name"||$workID||"-1"},
       attribute {"xml:lang"} {"en"},
       attribute {"srophe:tags"} {"#syriaca-headword"},
-      attribute {"resp"} {"http://syriaca.org"},
+      attribute {"resp"} {"http://syriaca.org"}, (: SOURCE to the translation bibl :)
       $title
     },
     (: AUTHOR, if there is one :)
     if($authorURI != "") then
-      element {"author"} {
-        attribute {"ref"} {$authorURI},
-        if($authorIsPseudo) then
+      for $author at $i in $authorURI
+      return element {"author"} {
+        attribute {"ref"} {$author},
+        if($authorIsPseudo[$i]) then
           attribute {"ana"} {"pseudo"}
         else (),
-        (: TODO: RESP OR SOURCE? :)
+        attribute {"source"} {"#bib"||$workID||"-1"},
         attribute {"xml:lang"} {"en"},
         (: RECORD TITLE FROM SBD :)
-        $personIndex?$authorURI/text()[1],
-        if($personIndex?$authorURI/foreign) then 
+        $personIndex?$author/text()[1],
+        if($personIndex?$author/foreign) then 
         element {"foreign"} {
-          $personIndex?$authorURI/foreign/@*,
-          $personIndex?$authorURI/foreign/text()
+          $personIndex?$author/foreign/@*,
+          $personIndex?$author/foreign/text()
         }
         else ()
       }
@@ -314,14 +316,15 @@ let $stubHeader := element {"teiHeader"} {
     element {"editor"} {
       attribute {"role"} {"creator"},
       attribute {"ref"} {"http://syriaca.org/documentation/editors.xml#"}
-    }, (: TODO: ask Dan if crediting him and/or student as creator - can also be done in the template file :)
-    element {"respStmt"} {
+    }, (: TODO: credit Dan's student :)
+    (: TODO: Retain a stub editor for the reviewers :)
+    element {"respStmt"} { (: TODO: create a stub respStmt for the reviewers, maybe with a comment to fill in :)
       element {"resp"} {
-        (: TODO ask Dan what this should be, if anything  - can also be done in the template file :)
+        (: TODO credit Dan's student :)
         element {"name"} {
           attribute {"type"} {"person"},
           attribute {"ref"} {"http://syriaca.org/documentation/editors.xml#"}
-          (: TODO ask Dan if should be anyone specific, or if leave to be filled in :)
+          (: TODO credit the student:)
         }
       }
     }
@@ -330,8 +333,8 @@ let $stubHeader := element {"teiHeader"} {
     attribute {"status"} {"draft"},
     element {"change"} {
       attribute {"who"} {"http://syriaca.org/documentation/editors.xml#"},
-      attribute {"when"} {}
-      (: TODO: ask Dan if we want a specific change for the stub or if we should leave blank for them to fill in :)
+      attribute {"when"} {}(: TODO: Fill in for the created stub change, but leave blank for the review editors one :)
+      (: TODO: add a CREATED: stub record... and a stub change for the review editors :)
     }
   }
 }
@@ -342,7 +345,6 @@ let $stub := element {"TEI"} {
 }
 (:
 TODO: Review questions with Dan
-TODO: File I/O and send Dan some samples to review
 :)
 
 let $namespaces :=
