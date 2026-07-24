@@ -8,6 +8,11 @@
         <sponsor>Syriaca.org: The Syriac Reference Portal</sponsor>
         <funder>The International Balzan Prize Foundation</funder>
         <funder>The National Endowment for the Humanities</funder>
+        <editor role="creator" ref="http://syriaca.org/documentation/editors.xml#echrisanthus">Evangelos Chrisanthus</editor>
+        <respStmt>
+          <resp>Initial data collection for work record by</resp>
+          <name type="person" ref="http://syriaca.org/documentation/editors.xml#echrisanthus">Evangelos Chrisanthus</name>
+        </respStmt>
       </titleStmt>
       <editionStmt>
         <edition n="2.0"/>

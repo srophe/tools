@@ -335,8 +335,9 @@ let $stubHeader := element {"teiHeader"} {
       comment{"CHANGED: Brief statement of what was changed"}
     },
     element {"change"} {
-      attribute {"who"} {"http://syriaca.org/documentation/editors.xml#"}, (:TODO: add Dan's student's editors ID :)
-      attribute {"when"} {current-date()}
+      attribute {"who"} {"http://syriaca.org/documentation/editors.xml#echrisanthus"},
+      attribute {"when"} {current-date()},
+      "CREATED: Stub work record."
     }
   }
 }
