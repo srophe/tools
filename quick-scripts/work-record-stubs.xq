@@ -315,17 +315,15 @@ let $stubHeader := element {"teiHeader"} {
   element {"titleStmt"} {
     element {"editor"} {
       attribute {"role"} {"creator"},
-      attribute {"ref"} {"http://syriaca.org/documentation/editors.xml#"}
-    }, (: TODO: credit Dan's student :)
-    (: TODO: Retain a stub editor for the reviewers :)
-    element {"respStmt"} { (: TODO: create a stub respStmt for the reviewers, maybe with a comment to fill in :)
-      element {"resp"} {
-        (: TODO credit Dan's student :)
-        element {"name"} {
-          attribute {"type"} {"person"},
-          attribute {"ref"} {"http://syriaca.org/documentation/editors.xml#"}
-          (: TODO credit the student:)
-        }
+      attribute {"ref"} {"http://syriaca.org/documentation/editors.xml#"},
+      comment {"Name of Reviewing Editor"}
+    },
+    element {"respStmt"} {
+      element {"resp"} {comment{"Brief statement of responsibility"}},
+      element {"name"} {
+        attribute {"type"} {"person"},
+        attribute {"ref"} {"http://syriaca.org/documentation/editors.xml#"},
+        comment {"Name of Reviewing Editor"}
       }
     }
   },
@@ -333,8 +331,12 @@ let $stubHeader := element {"teiHeader"} {
     attribute {"status"} {"draft"},
     element {"change"} {
       attribute {"who"} {"http://syriaca.org/documentation/editors.xml#"},
-      attribute {"when"} {}(: TODO: Fill in for the created stub change, but leave blank for the review editors one :)
-      (: TODO: add a CREATED: stub record... and a stub change for the review editors :)
+      attribute {"when"} {},
+      comment{"CHANGED: Brief statement of what was changed"}
+    },
+    element {"change"} {
+      attribute {"who"} {"http://syriaca.org/documentation/editors.xml#"}, (:TODO: add Dan's student's editors ID :)
+      attribute {"when"} {current-date()}
     }
   }
 }
@@ -343,9 +345,6 @@ let $stub := element {"TEI"} {
   $stubHeader,
   $text
 }
-(:
-TODO: Review questions with Dan
-:)
 
 let $namespaces :=
 (
